@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, FormEvent } from "react";
+import { openEmail } from "@/lib/mailto";
 
 function Field({ label, name, type = "text", required, autoComplete, textarea }: {
   label: string; name: string; type?: string; required?: boolean; autoComplete?: string; textarea?: boolean;
@@ -29,36 +30,19 @@ export default function Contact() {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [msg, setMsg] = useState("");
 
-  async function onSubmit(e: FormEvent<HTMLFormElement>) {
+  function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const form = e.currentTarget;
-    const data = new FormData(form);
-    const payload = Object.fromEntries(data.entries());
+    const data = new FormData(e.currentTarget);
 
-    if (!payload.first_name || !payload.email) {
+    if (!String(data.get("first_name") ?? "").trim() || !String(data.get("email") ?? "").trim()) {
       setStatus("error");
       setMsg("Please provide your first name and email.");
       return;
     }
 
-    setStatus("sending");
-    setMsg("Sending...");
-
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const result = await res.json();
-      if (!res.ok) throw new Error(result.error || "Failed");
-      setStatus("success");
-      setMsg("Thank you! Your message has been sent. We'll be in touch shortly.");
-      form.reset();
-    } catch {
-      setStatus("error");
-      setMsg("Sorry, something went wrong. Please email us at Contact@iTechEvolution.co.uk");
-    }
+    openEmail(data, "Website enquiry");
+    setStatus("success");
+    setMsg("Your email app should open with your message. Just press send.");
   }
 
   return (

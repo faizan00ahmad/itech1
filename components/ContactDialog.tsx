@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, FormEvent, useEffect, useRef } from "react";
+import { openEmail } from "@/lib/mailto";
 
 function Field({ label, name, type = "text", required, autoComplete, textarea }: {
   label: string; name: string; type?: string; required?: boolean; autoComplete?: string; textarea?: boolean;
@@ -45,37 +46,19 @@ export default function ContactDialog({ open, onClose }: { open: boolean; onClos
     return () => el.removeEventListener("close", handler);
   }, [onClose]);
 
-  async function onSubmit(e: FormEvent<HTMLFormElement>) {
+  function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const form = e.currentTarget;
-    const data = new FormData(form);
-    const payload = Object.fromEntries(data.entries());
+    const data = new FormData(e.currentTarget);
 
-    if (!payload.first_name || !payload.email) {
+    if (!String(data.get("first_name") ?? "").trim() || !String(data.get("email") ?? "").trim()) {
       setStatus("error");
       setMsg("Please provide your first name and email.");
       return;
     }
 
-    setStatus("sending");
-    setMsg("Sending...");
-
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const result = await res.json();
-      if (!res.ok) throw new Error(result.error || "Failed");
-      setStatus("success");
-      setMsg("Thank you! We'll be in touch shortly.");
-      form.reset();
-      setTimeout(() => { onClose(); setStatus("idle"); setMsg(""); }, 2400);
-    } catch {
-      setStatus("error");
-      setMsg("Sorry, something went wrong. Please try again.");
-    }
+    openEmail(data, "Quote request");
+    setStatus("success");
+    setMsg("Your email app should open with your request. Just press send.");
   }
 
   return (
