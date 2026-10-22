@@ -40,8 +40,8 @@ export default function Header({ onOpenContact }: { onOpenContact: () => void })
           <Image
             src="/logo.webp"
             alt="iTech Evolution"
-            width={1599}
-            height={684}
+            width={150}
+            height={64}
             priority
             className="h-[46px] w-auto drop-shadow-[0_4px_18px_rgba(0,0,0,0.5)]"
           />

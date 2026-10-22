@@ -15,13 +15,11 @@ export default function Scene3D() {
   const cubeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const layer = layerRef.current;
-    const svg = svgRef.current;
-    const track = trackRef.current;
-    const trail = trailRef.current;
-    const ship = objectRef.current;
-    const cube = cubeRef.current;
-    if (!layer || !svg || !track || !trail || !ship || !cube) return;
+    const svg = svgRef.current!;
+    const track = trackRef.current!;
+    const trail = trailRef.current!;
+    const ship = objectRef.current!;
+    const cube = cubeRef.current!;
 
     let pathLength = 0;
     let ys: number[] = [];

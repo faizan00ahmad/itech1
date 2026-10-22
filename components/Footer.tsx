@@ -9,8 +9,8 @@ export default function Footer() {
           <Image
             src="/logo.webp"
             alt="iTech Evolution"
-            width={1599}
-            height={684}
+            width={150}
+            height={64}
             className="h-[64px] w-auto mb-7"
           />
           <p className="text-[14px] leading-relaxed text-white/50 max-w-[36ch]">

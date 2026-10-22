@@ -359,6 +359,95 @@ dialog[open]::backdrop {
   border-color: rgba(245, 183, 0, 0.4);
 }
 
+/* ============ FX: Circuit ============ */
+.fx-circuit-track,
+.fx-circuit-bus,
+.fx-circuit-trail { fill: none; stroke-linejoin: round; stroke-linecap: round; }
+.fx-circuit-track { stroke: rgba(201, 206, 214, 0.16); stroke-width: 2; }
+.fx-circuit-bus { stroke: rgba(201, 206, 214, 0.07); stroke-width: 1; transform: translate(12px, 6px); }
+.fx-circuit-trail {
+  stroke: #F5B700;
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 6px rgba(245, 183, 0, 0.8));
+}
+.fx-node__stub { fill: none; stroke: rgba(201, 206, 214, 0.14); stroke-width: 1.5; transition: stroke 0.5s; }
+.fx-node__pad { fill: rgba(201, 206, 214, 0.2); transition: fill 0.5s; }
+.fx-node__ring { fill: #0B0C0F; stroke: rgba(201, 206, 214, 0.35); stroke-width: 1.5; transition: stroke 0.4s; }
+.fx-node__core { fill: rgba(201, 206, 214, 0.35); transition: fill 0.4s; }
+.fx-node__pulse { fill: none; stroke: #F5B700; opacity: 0; transform-box: fill-box; transform-origin: center; }
+.fx-node.is-on .fx-node__stub { stroke: rgba(245, 183, 0, 0.6); }
+.fx-node.is-on .fx-node__pad,
+.fx-node.is-on .fx-node__core { fill: #F5B700; }
+.fx-node.is-on .fx-node__ring { stroke: #F5B700; }
+.fx-node.is-on .fx-node__pulse { animation: fx-pulse 1.8s ease-out infinite; }
+@keyframes fx-pulse {
+  from { opacity: 0.9; transform: scale(1); }
+  to { opacity: 0; transform: scale(3.2); }
+}
+
+.fx-chip-wrap {
+  position: absolute;
+  width: 96px;
+  height: 96px;
+  transform: translate(-50%, -50%);
+  perspective: 700px;
+}
+.fx-chip-glow {
+  position: absolute;
+  inset: -46px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 183, 0, 0.35), transparent 65%);
+  filter: blur(18px);
+}
+.fx-chip {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+.fx-chip span {
+  position: absolute;
+  inset: 0;
+  background: url(/logo-mark.webp) center / contain no-repeat;
+}
+
+/* ============ FX: Sun comet ============ */
+.fx-comet-track {
+  fill: none;
+  stroke: rgba(245, 183, 0, 0.28);
+  stroke-width: 2;
+  stroke-dasharray: 0.1 18;
+  stroke-linecap: round;
+}
+.fx-comet-trail {
+  fill: none;
+  stroke: rgba(255, 214, 90, 0.35);
+  stroke-width: 1.2;
+}
+.fx-sun {
+  position: absolute;
+  width: 116px;
+  height: 116px;
+  transform: translate(-50%, -50%);
+}
+.fx-sun__halo {
+  position: absolute;
+  inset: -60px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 200, 40, 0.45), rgba(245, 183, 0, 0.12) 40%, transparent 68%);
+  animation: fx-breathe 3s ease-in-out infinite;
+}
+.fx-sun__core {
+  position: absolute;
+  inset: 34px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 35%, #fffbe8, #ffd34d 45%, #f5b700 75%, #d99a00);
+  box-shadow: 0 0 24px 6px rgba(255, 200, 40, 0.75), 0 0 70px 20px rgba(245, 183, 0, 0.35);
+}
+@keyframes fx-breathe {
+  50% { transform: scale(1.12); opacity: 0.8; }
+}
+
 /* ============ Reduced motion ============ */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
