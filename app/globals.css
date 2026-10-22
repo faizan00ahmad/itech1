@@ -1,0 +1,369 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  ::selection {
+    background: rgba(245, 183, 0, 0.3);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid rgba(245, 183, 0, 0.6);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  html {
+    scroll-padding-top: 80px;
+  }
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  body {
+    line-height: 1.65;
+    letter-spacing: 0.01em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+  .glass {
+    background: linear-gradient(
+      160deg,
+      rgba(255, 255, 255, 0.07),
+      rgba(255, 255, 255, 0.02)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 30px 60px -30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(16px) saturate(1.3);
+    -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  }
+
+  .section-pad {
+    padding-top: clamp(100px, 13vw, 180px);
+    padding-bottom: clamp(100px, 13vw, 180px);
+  }
+
+  .container-site {
+    width: min(1200px, 100% - 48px);
+    margin-inline: auto;
+  }
+}
+
+/* ============ 3D Cube ============ */
+.cube-wrap {
+  perspective: 800px;
+}
+.cube {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(-25deg) rotateY(45deg);
+}
+.cube__face {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border: 1.5px solid rgba(220, 224, 230, 0.65);
+  background: linear-gradient(135deg, rgba(245, 183, 0, 0.08), rgba(201, 206, 214, 0.05));
+  box-shadow: inset 0 0 20px rgba(245, 183, 0, 0.08);
+}
+.cube__face--front  { transform: translateZ(40px); }
+.cube__face--back   { transform: rotateY(180deg) translateZ(40px); }
+.cube__face--right  { transform: rotateY(90deg) translateZ(40px); }
+.cube__face--left   { transform: rotateY(-90deg) translateZ(40px); }
+.cube__face--top    { transform: rotateX(90deg) translateZ(40px); }
+.cube__face--bottom { transform: rotateX(-90deg) translateZ(40px); }
+.cube__glow {
+  position: absolute;
+  inset: -50px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 183, 0, 0.3), transparent 65%);
+  filter: blur(24px);
+  transition: opacity 0.3s;
+}
+
+/* ============ Scene path ============ */
+.scene-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 0;
+  z-index: 40;
+  pointer-events: none;
+}
+.scene-layer svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+}
+.scene-track {
+  fill: none;
+  stroke: rgba(245, 183, 0, 0.12);
+  stroke-width: 1;
+  stroke-dasharray: 4 16;
+  stroke-linecap: round;
+}
+.scene-trail {
+  fill: none;
+  stroke: url(#trail-grad);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 8px rgba(245, 183, 0, 0.5));
+}
+
+/* ============ Scroll progress bar ============ */
+.scroll-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 100;
+  pointer-events: none;
+  background: linear-gradient(90deg, #F5B700, #C9CED6, #F5B700);
+  background-size: 200% 100%;
+  animation: gradient-shift 3s linear infinite;
+  transform: scaleX(0);
+  transform-origin: left;
+  box-shadow: 0 0 16px rgba(245, 183, 0, 0.6), 0 0 4px rgba(201, 206, 214, 0.4);
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
+}
+
+/* ============ Grid background ============ */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ============ Eyebrow dot ============ */
+.eyebrow-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 4px rgba(245, 183, 0, 0.18);
+  animation: pulse-dot 2.4s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  50% { box-shadow: 0 0 0 10px rgba(245, 183, 0, 0); }
+}
+
+/* ============ Scroll cue ============ */
+.scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  width: 1px;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.15);
+  overflow: hidden;
+}
+.scroll-cue span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 40%;
+  background: linear-gradient(to bottom, #F5B700, transparent);
+  animation: cue-scroll 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+@keyframes cue-scroll {
+  from { transform: translateY(-100%); }
+  to   { transform: translateY(260%); }
+}
+
+/* ============ Buttons ============ */
+.btn-glow {
+  background: linear-gradient(135deg, #FFC928, #F5B700 55%, #D99E00);
+  color: #08090C;
+  box-shadow: 0 10px 30px -10px rgba(245, 183, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: box-shadow 0.5s, color 0.4s, transform 0.4s;
+}
+.btn-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: #fff;
+  transform: translateY(101%);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-glow:hover::before { transform: translateY(0); }
+.btn-glow:hover {
+  color: #08090C;
+  box-shadow: 0 20px 44px -12px rgba(245, 183, 0, 0.75);
+  transform: translateY(-2px);
+}
+.btn-glow > * { position: relative; z-index: 1; }
+
+.btn-ghost {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(8px);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: box-shadow 0.5s, color 0.4s, transform 0.4s;
+}
+.btn-ghost::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: #fff;
+  transform: translateY(101%);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-ghost:hover::before { transform: translateY(0); }
+.btn-ghost:hover {
+  color: #08090C;
+  border-color: #fff;
+  transform: translateY(-2px);
+}
+.btn-ghost > * { position: relative; z-index: 1; }
+
+/* ============ Glow card ============ */
+.glow-card {
+  --mx: 50%;
+  --my: 50%;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s, box-shadow 0.5s;
+}
+.glow-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(600px circle at var(--mx) var(--my), rgba(245, 183, 0, 0.15), transparent 40%);
+  opacity: 0;
+  transition: opacity 0.5s;
+  pointer-events: none;
+}
+.glow-card:hover::before { opacity: 1; }
+.glow-card:hover {
+  box-shadow:
+    0 30px 60px -20px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(245, 183, 0, 0.15);
+}
+
+/* ============ Form ============ */
+.field-input {
+  width: 100%;
+  padding: 28px 20px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  font-size: 15px;
+  transition: border-color 0.4s, background-color 0.4s, box-shadow 0.4s;
+}
+.field-input:focus {
+  outline: none;
+  border-color: #F5B700;
+  background: rgba(245, 183, 0, 0.06);
+  box-shadow: 0 0 0 4px rgba(245, 183, 0, 0.12), 0 0 20px rgba(245, 183, 0, 0.06);
+}
+.field-label {
+  position: absolute;
+  left: 21px;
+  top: 20px;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 15px;
+  pointer-events: none;
+  transform-origin: left top;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s;
+}
+.field-input:focus + .field-label,
+.field-input:not(:placeholder-shown) + .field-label {
+  transform: translateY(-10px) scale(0.74);
+  color: #F5B700;
+}
+
+/* ============ Dialog ============ */
+dialog::backdrop {
+  background: rgba(2, 6, 14, 0.75);
+  backdrop-filter: blur(8px);
+}
+dialog[open] {
+  animation: sheet-up 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes sheet-up {
+  from { opacity: 0; transform: translateY(40px) scale(0.96); }
+}
+dialog[open]::backdrop {
+  animation: fade-in 0.4s ease;
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+}
+
+/* ============ Stack cards ============ */
+@media (min-width: 900px) {
+  .stack-card-sticky {
+    position: sticky;
+    top: calc(110px + var(--i, 0) * 32px);
+    transform-origin: 50% 0;
+  }
+}
+
+/* ============ Section divider ============ */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(245, 183, 0, 0.3), transparent);
+  transform-origin: left;
+}
+
+/* ============ Tag pill ============ */
+.tag-pill {
+  padding: 5px 14px;
+  border-radius: 9999px;
+  background: rgba(245, 183, 0, 0.1);
+  border: 1px solid rgba(245, 183, 0, 0.2);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #F5B700;
+  transition: background 0.3s, border-color 0.3s;
+}
+.tag-pill:hover {
+  background: rgba(245, 183, 0, 0.2);
+  border-color: rgba(245, 183, 0, 0.4);
+}
+
+/* ============ Reduced motion ============ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
