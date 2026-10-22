@@ -1,4 +1,4 @@
-export default function Hero({ onOpenContact }: { onOpenContact?: () => void }) {
+export default function Hero() {
   return (
     <section
       id="home"

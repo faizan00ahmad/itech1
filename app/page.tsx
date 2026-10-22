@@ -28,7 +28,7 @@ export default function Home() {
       <Header onOpenContact={() => setDialogOpen(true)} />
 
       <main>
-        <Hero onOpenContact={() => setDialogOpen(true)} />
+        <Hero />
         <Marquee />
         <About />
         <Services />
